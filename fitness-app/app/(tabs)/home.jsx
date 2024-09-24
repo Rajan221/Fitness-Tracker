@@ -4,14 +4,52 @@ import {
   ImageBackground,
   ScrollView,
   Dimensions,
+  Alert,
+  FlatList,
+  Image,
+  Pressable,
+  Linking,
 } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 
 import { LineChart, ProgressChart } from "react-native-chart-kit";
 
 const Home = () => {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://192.168.101.5:8002/");
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch data");
+        }
+
+        const result = await response.json();
+
+        setData(result);
+      } catch (error) {
+        Alert.alert("Error", error.message);
+      }
+    };
+
+    fetchData(); // Ensure fetchData is called
+  }, []); // Add dependency array to call fetchData only once
+
+  const handlePress = async (url) => {
+    // Check if the URL can be opened
+    const supported = await Linking.canOpenURL(url);
+    if (supported) {
+      // Open the URL
+      await Linking.openURL(url);
+    } else {
+      console.log("Don't know how to open URI: " + url);
+    }
+  };
+
   return (
     <ScrollView nestedScrollEnabled={true}>
       <ImageBackground
@@ -75,7 +113,7 @@ const Home = () => {
         <Text className="text-xl">Food Analysis</Text>
         <View>
           <ProgressChart
-            data={data}
+            data={datas}
             width={Dimensions.get("window").width - 30}
             height={220}
             strokeWidth={16}
@@ -85,13 +123,34 @@ const Home = () => {
           />
         </View>
       </View>
+      {data.length > 0 ? (
+        data.map((video, index) => (
+          <Pressable
+            key={index}
+            className="mt-5 mx-5 bg-[#333]"
+            onPress={() => handlePress(video.videoLink)}
+          >
+            <Image
+              className="h-80 w-full"
+              source={{
+                uri: video.videoImage,
+              }}
+            />
+            <Text className="text-white">
+              Title: {video.videoTitle || "No Title"}
+            </Text>
+          </Pressable>
+        ))
+      ) : (
+        <Text>No data available</Text>
+      )}
     </ScrollView>
   );
 };
 
 export default Home;
 
-const data = {
+const datas = {
   labels: ["Protein", "Carbs", "Sugar"], // optional
   data: [0.8, 0.6, 0.2],
 };
