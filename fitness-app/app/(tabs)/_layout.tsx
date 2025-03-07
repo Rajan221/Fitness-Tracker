@@ -1,7 +1,7 @@
 import { View, Text } from "react-native";
 import React from "react";
 import { Stack, Tabs } from "expo-router";
-import { Ionicons } from "@expo/vector-icons"; // Import Ionicons from Expo
+import { Ionicons } from "@expo/vector-icons";
 
 const MainLayout = () => {
   return (
@@ -19,7 +19,7 @@ const MainLayout = () => {
             title: "Home",
             headerShown: false,
             tabBarIcon: ({ color, size }) => (
-              <Ionicons name="home" color={color} size={size} /> // Using Ionicons
+              <Ionicons name="home" color={color} size={size} />
             ),
           }}
         ></Tabs.Screen>
@@ -29,7 +29,7 @@ const MainLayout = () => {
             title: "Food Tracker",
             headerShown: true,
             tabBarIcon: ({ color, size }) => (
-              <Ionicons name="fast-food" color={color} size={size} /> // Using Ionicons
+              <Ionicons name="fast-food" color={color} size={size} />
             ),
           }}
         ></Tabs.Screen>
@@ -39,7 +39,7 @@ const MainLayout = () => {
             title: "Workout",
             headerShown: true,
             tabBarIcon: ({ color, size }) => (
-              <Ionicons name="barbell" color={color} size={size} /> // Using Ionicons
+              <Ionicons name="barbell" color={color} size={size} />
             ),
           }}
         ></Tabs.Screen>
@@ -49,7 +49,7 @@ const MainLayout = () => {
             title: "Settings",
             headerShown: true,
             tabBarIcon: ({ color, size }) => (
-              <Ionicons name="settings" color={color} size={size} /> // Using Ionicons
+              <Ionicons name="settings" color={color} size={size} />
             ),
           }}
         ></Tabs.Screen>
